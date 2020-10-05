@@ -43,7 +43,8 @@ namespace ConsoleApp1
             ctx.Actividades.Add(new Actividad { Lugar = "caba", Nombre = "Clase" });
             ctx.Actividades.Add(new Actividad { Lugar = "caba", Nombre = "Clase" });
             ctx.Actividades.Add(new Actividad { Lugar = "caba", Nombre = "Clase" });
-             // esto "commitea"
+            
+            // esto "commitea"
             ctx.SaveChanges();
 
         }
