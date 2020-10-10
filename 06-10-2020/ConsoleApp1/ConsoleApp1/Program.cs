@@ -20,7 +20,7 @@ namespace ConsoleApp1
             Consultar(); // ----> Acá realizo diferentes tipos de consultas
 
 
-            // Actualizar(); // ---> modifico datos de tablas
+             //Actualizar(); // ---> modifico datos de tablas
 
 
             // Borrado(); //---> Acá borro elementos de tablas pasandole un valor (en este ejemplo un ID)

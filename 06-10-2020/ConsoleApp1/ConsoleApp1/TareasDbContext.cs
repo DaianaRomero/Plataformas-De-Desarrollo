@@ -14,23 +14,23 @@ namespace ConsoleApp1
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuario>()
-                .ToTable("Usuario")
-                .Property(p => p.Clave).HasMaxLength(10).IsRequired();
+            modelBuilder.Entity<Usuario>().ToTable("Usuario").Property(p => p.Clave).HasMaxLength(10).IsRequired();
+            modelBuilder.Entity<Usuario>().Property(p=>p.Nombre).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Usuario>().Property(p => p.Id).ValueGeneratedOnAdd();
+            
 
-            modelBuilder.Entity<Tarea>()
-                .ToTable("Tarea")
-                .Property(p=> p.Titulo).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Tarea>().ToTable("Tarea").Property(p=> p.Titulo).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Tarea>().Property(p => p.Vencimiento).IsRequired();
+            modelBuilder.Entity<Tarea>().Property(p => p.Estimacion).HasDefaultValue(0);
+            modelBuilder.Entity<Tarea>().Property(p => p.Estado).HasDefaultValue(false);
+            modelBuilder.Entity<Tarea>().Property(p => p.Id).ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Detalle>()
-                .ToTable("Detalle")
-                .Property(p => p.Fecha)
-                .HasColumnType("DateTime");
+            modelBuilder.Entity<Detalle>().ToTable("Detalle").Property(p => p.Fecha).HasColumnType("DateTime");
+            modelBuilder.Entity<Detalle>().Property(p => p.Tiempo).IsRequired();
+            modelBuilder.Entity<Detalle>().Property(p => p.Id).ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Recurso>()
-               .ToTable("Recurso")
-               .Property(p=>p.Nombre).HasMaxLength(50).IsRequired();
-
+            modelBuilder.Entity<Recurso>().ToTable("Recurso").Property(p=>p.Nombre).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Recurso>().Property(p => p.Id).ValueGeneratedOnAdd();
 
 
 

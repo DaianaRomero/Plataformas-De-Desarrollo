@@ -80,10 +80,14 @@ namespace ConsoleApp1.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Estado")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("Estimacion")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
 
                     b.Property<int?>("ResponsableId")
                         .HasColumnType("INTEGER");
@@ -118,7 +122,9 @@ namespace ConsoleApp1.Migrations
                         .HasMaxLength(10);
 
                     b.Property<string>("Nombre")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
