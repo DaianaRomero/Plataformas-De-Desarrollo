@@ -9,4 +9,5 @@ namespace ConsoleApp1
         public string Nombre { get; set; }
         public Usuarios Usuario { get; set; }
     }
+
 }

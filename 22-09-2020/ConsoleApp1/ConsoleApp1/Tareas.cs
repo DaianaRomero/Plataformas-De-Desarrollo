@@ -15,6 +15,8 @@ namespace ConsoleApp1
             Estado = estado;
         }
 
+
+
         public string Titulo { get; set; }
         public DateTime Vencimiento { get; set; }
         public int Estimacion { get; set; }
