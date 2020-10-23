@@ -40,6 +40,7 @@ namespace ConsoleApp1
             cxt.Usuarios.Remove(usuario);
 
 
+
            var recurso = cxt.Recursos.Where(i => i.Id == 1).Single();
            cxt.Recursos.Remove(recurso);
 

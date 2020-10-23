@@ -1,0 +1,52 @@
+﻿@page "/ListadoDeUsuarios"
+<h3>Listado De Usuarios</h3>
+
+
+@using BlazorApp1.Data
+@inject UsuarioService usuarioService
+
+<h1>Usuarios</h1>
+
+<p></p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Clave</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Id</td>
+                    <td>@forecast.Nombre</td>
+                    <td>@forecast.Clave</td>
+                    
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+
+    private Usuario[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = usuarioService.GetUsuario();
+    }
+}
+

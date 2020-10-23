@@ -1,0 +1,70 @@
+﻿@page "/ListadoDeTareas"
+<h3>Listado De Tareas</h3>
+
+
+@using BlazorApp1.Data
+@inject TareaService tareaService
+
+<h1>Tareas</h1>
+
+<p></p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Vencimiento</th>
+                <th>Estimacion</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Id</td>
+                    <td>@forecast.Titulo</td>
+                    <td>@forecast.Vencimiento</td>
+                    <td>@forecast.Estimacion</td>
+                    <td>@forecast.Estado</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+
+    private Tarea[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts =  tareaService.GetTareas();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+
+}
