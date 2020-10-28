@@ -56,7 +56,8 @@ else
     }
 
     async Task Borrar(int id)
-    {
+    { 
+
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea elimiar detalles?");
         if (confirmed)
         {
