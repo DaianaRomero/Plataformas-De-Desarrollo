@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,22 +9,46 @@ namespace BlazorApp1.Data
     public class DetalleService
     {
 
-        public Detalle[] GetDetalle()
+
+        private DataContext context;
+
+        public DetalleService(DataContext _context)
         {
-
-
-
-            Detalle[] resultado = new Detalle[5];
-
-            resultado[0] = new Detalle(1, new DateTime(2016, 6, 1, 6, 34, 53), "10 meses");
-            resultado[1] = new Detalle(2, new DateTime(2016, 6, 1, 6, 34, 53), "1 mes");
-            resultado[2] = new Detalle(3, new DateTime(2016, 6, 1, 6, 34, 53), "5 meses");
-            resultado[3] = new Detalle(4, new DateTime(2016, 6, 1, 6, 34, 53), "6 meses");
-            resultado[4] = new Detalle(5, new DateTime(2016, 6, 1, 6, 34, 53), "1 año");
-
-
-            return resultado;
+            context = _context;
         }
 
+        public async Task<Detalle> Get(int id)
+        {
+            return await context.Detalles.Where(i => i.Id == id).SingleAsync();
+        }
+
+        public async Task<List<Detalle>> GetAll()
+        {
+            return await context.Detalles.ToListAsync();
+        }
+
+        public async Task<Detalle> Save(Detalle value)
+        {
+            if (value.Id == 0)
+            {
+                await context.Detalles.AddAsync(value);
+            }
+            else
+            {
+                context.Detalles.Update(value);
+            }
+            await context.SaveChangesAsync();
+            return value;
+        }
+
+        public async Task<bool> Remove(int id)
+        {
+            var entidad = await context.Detalles.Where(i => i.Id == id).SingleAsync();
+            context.Detalles.Remove(entidad);
+            await context.SaveChangesAsync();
+            return true;
+
+
+        }
     }
 }

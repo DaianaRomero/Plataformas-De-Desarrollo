@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,21 +8,46 @@ namespace BlazorApp1.Data
 {
     public class RecursoService
     {
-        public Recurso[] GetRecurso()
+        private DataContext context;
+
+        public RecursoService(DataContext _context)
         {
+            context = _context;
+        }
 
 
+        public async Task<Recurso> Get(int id)
+        {
+            return await context.Recursos.Where(i => i.Id == id).SingleAsync();
+        }
 
-            Recurso[] resultado = new Recurso[5];
+        public async Task<List<Recurso>> GetAll()
+        {
+            return await context.Recursos.ToListAsync();
+        }
 
-            resultado[0] = new Recurso(1, "Recurso 1");
-            resultado[1] = new Recurso(2, "Recurso 2");
-            resultado[2] = new Recurso(3, "Recurso 3");
-            resultado[3] = new Recurso(4, "Recurso 4");
-            resultado[4] = new Recurso(5, "Recurso 5");
+        public async Task<Recurso> Save(Recurso value)
+        {
+            if (value.Id == 0)
+            {
+                await context.Recursos.AddAsync(value);
+            }
+            else
+            {
+                context.Recursos.Update(value);
+            }
+            await context.SaveChangesAsync();
+            return value;
+        }
+
+        public async Task<bool> Remove(int id)
+        {
+            var entidad = await context.Recursos.Where(i => i.Id == id).SingleAsync();
+            context.Recursos.Remove(entidad);
+            await context.SaveChangesAsync();
+            return true;
 
 
-            return resultado;
         }
     }
 }

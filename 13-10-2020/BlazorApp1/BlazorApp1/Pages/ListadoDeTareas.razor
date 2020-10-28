@@ -1,17 +1,13 @@
 ﻿@page "/ListadoDeTareas"
-<h3>Listado De Tareas</h3>
-
-
 @using BlazorApp1.Data
-@inject TareaService tareaService
+@inject TareaService service
+@inject NavigationManager navigation
 
-<h1>Tareas</h1>
+<h3>Listado</h3>
 
-<p></p>
-
-@if (forecasts == null)
+@if (tareas == null)
 {
-    <p><em>Loading...</em></p>
+
 }
 else
 {
@@ -26,45 +22,33 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var item in tareas)
             {
-                <tr>
-                    <td>@forecast.Id</td>
-                    <td>@forecast.Titulo</td>
-                    <td>@forecast.Vencimiento</td>
-                    <td>@forecast.Estimacion</td>
-                    <td>@forecast.Estado</td>
+            <tr>
 
-                </tr>
+                <td>@item.Id</td>
+                <td>@item.Titulo</td>
+                <td>@item.Vencimiento</td>
+                <td>@item.Estimacion</td>
+                <td>@item.Estado</td>
+                <td><button @onclick="()=>Editar(item.Id)"></button></td>
+            </tr>
             }
         </tbody>
     </table>
+
 }
 
 @code {
-
-
-    private Tarea[] forecasts;
+    private List<Tarea> tareas;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts =  tareaService.GetTareas();
+        tareas = await service.GetAll();
     }
-}
 
+    protected void Editar(int id)
+    {
 
-
-
-
-
-
-
-
-
-
-
-
-
-@code {
-
+    }
 }

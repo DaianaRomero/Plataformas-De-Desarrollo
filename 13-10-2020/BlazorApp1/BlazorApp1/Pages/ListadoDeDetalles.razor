@@ -1,11 +1,13 @@
-﻿@page "/ListadoDeUsuarios"
+﻿
+@page "/ListadoDeDetalles"
 @using BlazorApp1.Data
-@inject UsuarioService service
+@inject DetalleService service
 @inject NavigationManager navigation
 @inject IJSRuntime JsRuntime
+
 <h3>Listado</h3>
 <button class="btn" @onclick="()=>Editar(0)">Nuevo</button>
-@if (usuarios == null)
+@if (detalles == null)
 {
 
 }
@@ -14,19 +16,24 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Nombre</th>
-               
-                <th>Clave</th>
+
+                <th>Fecha</th>
+                <th>Tiempo</th>
+                <th>tipoidtarea</th>
+                <th>tipoidrecurso</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in usuarios)
+            @foreach (var item in detalles)
             {
                 <tr>
-                    <td>@item.Nombre</td>
-                   
-                    <td>@item.Clave</td>
+
+                    <td>@item.Fecha</td>
+                    <td>@item.Tiempo</td>
+                    <td>@item.TipoIdRecurso</td>
+                    <td>@item.TipoIdTarea</td>
                     <td><button class="btn" @onclick="()=>Editar(item.Id)">Editar</button> <button class="btn" @onclick="()=>Borrar(item.Id)">Borrar</button></td>
+
                 </tr>
             }
         </tbody>
@@ -35,28 +42,26 @@ else
 }
 
 @code {
-    private List<Usuario> usuarios;
+    private List<Detalle> detalles;
 
     protected override async Task OnInitializedAsync()
     {
-        usuarios = await service.GetAll();
+        detalles = await service.GetAll();
     }
-
 
 
     protected void Editar(int id)
     {
-        navigation.NavigateTo("/EditarUsuarios/" + id);
+        navigation.NavigateTo("/EditarDetalles/" + id);
     }
 
     async Task Borrar(int id)
     {
-        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea elimiar el usuario?");
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea elimiar detalles?");
         if (confirmed)
         {
             await service.Remove(id);
-            usuarios = await service.GetAll();
-
+            detalles = await service.GetAll();
         }
     }
 }
