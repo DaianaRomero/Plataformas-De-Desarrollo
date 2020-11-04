@@ -2,9 +2,10 @@
 @using BlazorApp1.Data
 @inject TareaService service
 @inject NavigationManager navigation
+@inject IJSRuntime JsRuntime
 
 <h3>Listado</h3>
-
+<button class="btn" @onclick="()=>Editar(0)">Nuevo</button>
 @if (tareas == null)
 {
 
@@ -14,11 +15,13 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+
                 <th>Titulo</th>
-                <th>Vencimiento</th>
+
                 <th>Estimacion</th>
+                <th>Vencimiento</th>
                 <th>Estado</th>
+                <th>Tipo Id Recurso</th>
             </tr>
         </thead>
         <tbody>
@@ -26,12 +29,15 @@ else
             {
             <tr>
 
-                <td>@item.Id</td>
+
                 <td>@item.Titulo</td>
                 <td>@item.Vencimiento</td>
                 <td>@item.Estimacion</td>
                 <td>@item.Estado</td>
-                <td><button @onclick="()=>Editar(item.Id)"></button></td>
+                <td>@item.TipoIdRecurso</td>
+                
+                <td><button class="btn" @onclick="()=>Editar(item.Id)">Editar</button> <button class="btn" @onclick="()=>Borrar(item.Id)">Borrar</button></td>
+
             </tr>
             }
         </tbody>
@@ -47,8 +53,20 @@ else
         tareas = await service.GetAll();
     }
 
+
+
     protected void Editar(int id)
     {
+        navigation.NavigateTo("/EditarTareas/" + id);
+    }
 
+    async Task Borrar(int id)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea elimiar tareas?");
+        if (confirmed)
+        {
+            await service.Remove(id);
+            tareas = await service.GetAll();
+        }
     }
 }

@@ -12,8 +12,8 @@ namespace BlazorApp1.Data
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-         public int TipoIdUsuario { get; set; }
-        public Usuario Usuario { get; set; }
+        public int TipoIdUsuario { get; set; }
+        public Usuario UsuarioId { get; set; }
 
 
         public Recurso() { }   //constructor implicito 
