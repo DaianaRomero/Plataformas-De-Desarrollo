@@ -25,7 +25,7 @@ namespace BlazorApp1.Data
         {
             return await context.Recursos.Include(i => i.UsuarioId).ToListAsync();
         }
-
+         
         public async Task<Recurso> Save(Recurso value)
         {
             if (value.Id == 0)
