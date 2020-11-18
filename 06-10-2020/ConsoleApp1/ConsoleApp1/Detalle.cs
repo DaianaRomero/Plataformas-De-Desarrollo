@@ -9,10 +9,10 @@ namespace ConsoleApp1
 
         public int Id { get; set; }
         public DateTime Fecha { get; set; }
-        public DateTime Tiempo { get; set; }
-        public int TipoIdRecurso { get; set; }
+        public string Tiempo { get; set; }
+        public int RecursoId { get; set; }
         public Recurso Recurso { get; set; }
-        public int TipoIdTarea { get; set; }
+        public int TareaId { get; set; }
         public Tarea Tarea { get; set; }
     }
 }

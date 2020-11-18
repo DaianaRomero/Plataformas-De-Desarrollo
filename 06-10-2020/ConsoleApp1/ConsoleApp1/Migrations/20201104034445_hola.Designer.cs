@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp1.Migrations
 {
     [DbContext(typeof(TareasDbContext))]
-    [Migration("20201010021830_1")]
-    partial class _1
+    [Migration("20201104034445_hola")]
+    partial class hola
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,20 +27,15 @@ namespace ConsoleApp1.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("DateTime");
 
-                    b.Property<int?>("RecursoId")
+                    b.Property<int>("RecursoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TareaId")
+                    b.Property<int>("TareaId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Tiempo")
+                    b.Property<string>("Tiempo")
+                        .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("TipoIdRecurso")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TipoIdTarea")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -62,10 +57,7 @@ namespace ConsoleApp1.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
-                    b.Property<int>("TipoIdUsuario")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("UsuarioId")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -86,15 +78,12 @@ namespace ConsoleApp1.Migrations
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("Estimacion")
+                    b.Property<string>("Estimacion")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("0");
 
-                    b.Property<int?>("ResponsableId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TipoIdRecurso")
+                    b.Property<int>("RecursoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Titulo")
@@ -107,7 +96,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ResponsableId");
+                    b.HasIndex("RecursoId");
 
                     b.ToTable("Tarea");
                 });
@@ -137,25 +126,33 @@ namespace ConsoleApp1.Migrations
                 {
                     b.HasOne("ConsoleApp1.Recurso", "Recurso")
                         .WithMany()
-                        .HasForeignKey("RecursoId");
+                        .HasForeignKey("RecursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ConsoleApp1.Tarea", "Tarea")
                         .WithMany()
-                        .HasForeignKey("TareaId");
+                        .HasForeignKey("TareaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ConsoleApp1.Recurso", b =>
                 {
                     b.HasOne("ConsoleApp1.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ConsoleApp1.Tarea", b =>
                 {
                     b.HasOne("ConsoleApp1.Recurso", "Responsable")
                         .WithMany()
-                        .HasForeignKey("ResponsableId");
+                        .HasForeignKey("RecursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -13,9 +13,9 @@ namespace ConsoleApp1
     // -----> Acá agrego los datos a las diferentes tablas en la Base de Datos
 
             //InsertarUsuarios();
-            //InsertarRecursos();
-            //InsertarTareas();
-            //InsertarDetalles();
+           //InsertarRecursos();
+           // InsertarTareas();
+           //InsertarDetalles();
 
             Consultar(); // ----> Acá realizo diferentes tipos de consultas
 
@@ -139,7 +139,7 @@ namespace ConsoleApp1
             {
                 Id = 1,
                 Nombre = "Primer Recurso",
-                TipoIdUsuario = 1
+                UsuarioId = 1
 
             });
           
@@ -147,28 +147,28 @@ namespace ConsoleApp1
             {
                 Id = 2,
                 Nombre = "Segundo Recurso",
-                TipoIdUsuario = 2
+                UsuarioId = 2
 
             });
             cxt.Recursos.Add(new Recurso
             {
                 Id = 3,
                 Nombre = "Tercer Recurso",
-                TipoIdUsuario = 3
+                UsuarioId = 3
 
             });
             cxt.Recursos.Add(new Recurso
             {
                 Id = 4,
                 Nombre = "Cuarto Recurso",
-                TipoIdUsuario = 4
+                UsuarioId = 4
 
             });
             cxt.Recursos.Add(new Recurso
             {
                 Id = 5,
                 Nombre = "Quinto Recurso",
-                TipoIdUsuario = 5
+                UsuarioId = 5
 
             });
 
@@ -184,8 +184,8 @@ namespace ConsoleApp1
                 Id = 1,
                 Titulo = "Tarea 1",
                 Vencimiento = new DateTime(2016, 6, 1, 6, 34, 53),
-                Estimacion = 10,
-                TipoIdRecurso = 1,
+                Estimacion = "10 meses",
+                RecursoId = 1,
                 Estado = false
             });
             cxt.Tareas.Add(new Tarea
@@ -194,8 +194,8 @@ namespace ConsoleApp1
                 Id = 2,
                 Titulo = "Tarea 2",
                 Vencimiento = new DateTime(2016, 6, 1, 6, 34, 53),
-                Estimacion = 20,
-                TipoIdRecurso = 2,
+                Estimacion = "10 meses",
+                RecursoId = 2,
                 Estado = true
             });
             cxt.Tareas.Add(new Tarea
@@ -204,8 +204,8 @@ namespace ConsoleApp1
                 Id = 3,
                 Titulo = "Tarea 3",
                 Vencimiento = new DateTime(2016, 6, 1, 6, 34, 53),
-                Estimacion = 16,
-                TipoIdRecurso = 3,
+                Estimacion = "10 meses",
+                RecursoId = 3,
                 Estado = false
             });
             cxt.Tareas.Add(new Tarea
@@ -214,8 +214,8 @@ namespace ConsoleApp1
                 Id = 4,
                 Titulo = "Tarea 4",
                 Vencimiento = new DateTime(2016, 6, 1, 6, 34, 53),
-                Estimacion = 14,
-                TipoIdRecurso = 4,
+                Estimacion = "10 meses",
+                RecursoId = 4,
                 Estado = true
             });
             cxt.Tareas.Add(new Tarea
@@ -224,8 +224,8 @@ namespace ConsoleApp1
                 Id = 5,
                 Titulo = "Tarea 5",
                 Vencimiento = new DateTime(2016, 6, 1, 6, 34, 53),
-                Estimacion = 15,
-                TipoIdRecurso = 5,
+                Estimacion = "10 meses",
+                RecursoId = 5,
                 Estado = false
             });
 
@@ -241,45 +241,45 @@ namespace ConsoleApp1
 
                 Id = 1,
                 Fecha = new DateTime(2020, 10, 09, 6, 34, 53),
-                Tiempo = new DateTime(2021, 10, 09, 6, 34, 53),
-                TipoIdRecurso = 1,
-                TipoIdTarea= 1
+                Tiempo = "2 meses",
+                RecursoId = 1,
+                TareaId= 1
             });
             cxt.Detalles.Add(new Detalle
             {
 
                 Id = 2,
                 Fecha = new DateTime(2020, 10, 09, 6, 34, 53),
-                Tiempo = new DateTime(2021, 10, 09, 6, 34, 53),
-                TipoIdRecurso = 2,
-                TipoIdTarea = 2
+                Tiempo = "2 meses",
+                RecursoId = 2,
+                TareaId = 2
             });
             cxt.Detalles.Add(new Detalle
             {
 
                 Id = 3,
                 Fecha = new DateTime(2020, 10, 09, 6, 34, 53),
-                Tiempo = new DateTime(2021, 10, 09, 6, 34, 53),
-                TipoIdRecurso = 3,
-                TipoIdTarea = 3
+                Tiempo = "2 meses",
+                RecursoId = 3,
+                TareaId = 3
             });
             cxt.Detalles.Add(new Detalle
             {
 
                 Id = 4,
                 Fecha = new DateTime(2020, 10, 09, 6, 34, 53),
-                Tiempo = new DateTime(2021, 10, 09, 6, 34, 53),
-                TipoIdRecurso = 4,
-                TipoIdTarea = 4
+                Tiempo = "2 meses",
+                RecursoId = 4,
+                TareaId = 4
             });
             cxt.Detalles.Add(new Detalle
             {
 
                 Id = 5,
                 Fecha = new DateTime(2020, 10, 09, 6, 34, 53),
-                Tiempo = new DateTime(2021, 10, 09, 6, 34, 53),
-                TipoIdRecurso = 5,
-                TipoIdTarea = 5
+                Tiempo = "2 meses",
+                RecursoId = 5,
+                TareaId = 5
             });
 
             cxt.SaveChanges();

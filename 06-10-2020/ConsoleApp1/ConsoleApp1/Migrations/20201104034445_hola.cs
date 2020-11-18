@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ConsoleApp1.Migrations
 {
-    public partial class _1 : Migration
+    public partial class hola : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,8 +28,7 @@ namespace ConsoleApp1.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(maxLength: 50, nullable: false),
-                    TipoIdUsuario = table.Column<int>(nullable: false),
-                    UsuarioId = table.Column<int>(nullable: true)
+                    UsuarioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +38,7 @@ namespace ConsoleApp1.Migrations
                         column: x => x.UsuarioId,
                         principalTable: "Usuario",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,21 +49,19 @@ namespace ConsoleApp1.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Titulo = table.Column<string>(maxLength: 50, nullable: false),
                     Vencimiento = table.Column<DateTime>(nullable: false),
-                    Estimacion = table.Column<int>(nullable: false, defaultValue: 0)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    TipoIdRecurso = table.Column<int>(nullable: false),
-                    ResponsableId = table.Column<int>(nullable: true),
+                    Estimacion = table.Column<string>(nullable: true, defaultValue: "0"),
+                    RecursoId = table.Column<int>(nullable: false),
                     Estado = table.Column<bool>(nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tarea", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tarea_Recurso_ResponsableId",
-                        column: x => x.ResponsableId,
+                        name: "FK_Tarea_Recurso_RecursoId",
+                        column: x => x.RecursoId,
                         principalTable: "Recurso",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,11 +71,9 @@ namespace ConsoleApp1.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Fecha = table.Column<DateTime>(type: "DateTime", nullable: false),
-                    Tiempo = table.Column<DateTime>(nullable: false),
-                    TipoIdRecurso = table.Column<int>(nullable: false),
-                    RecursoId = table.Column<int>(nullable: true),
-                    TipoIdTarea = table.Column<int>(nullable: false),
-                    TareaId = table.Column<int>(nullable: true)
+                    Tiempo = table.Column<string>(nullable: false),
+                    RecursoId = table.Column<int>(nullable: false),
+                    TareaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,13 +83,13 @@ namespace ConsoleApp1.Migrations
                         column: x => x.RecursoId,
                         principalTable: "Recurso",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Detalle_Tarea_TareaId",
                         column: x => x.TareaId,
                         principalTable: "Tarea",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -113,9 +108,9 @@ namespace ConsoleApp1.Migrations
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tarea_ResponsableId",
+                name: "IX_Tarea_RecursoId",
                 table: "Tarea",
-                column: "ResponsableId");
+                column: "RecursoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
