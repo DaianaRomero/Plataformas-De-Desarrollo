@@ -26,7 +26,28 @@ namespace WebApplication1.Controllers
             return _context.Tareas.ToList();
         }
 
+        [HttpGet("{id}")]
+        public Tarea Get(int id)
+        {
+            return _context.Tareas.Where(i => i.Id == id).Single();
+        }
 
+
+        [HttpPost]
+        public Tarea Post(Tarea valor)
+        {
+            if (valor.Id == 0)
+            {
+                _context.Tareas.Add(valor);
+            }
+            else
+            {
+                _context.Tareas.Attach(valor);
+                _context.Tareas.Update(valor);
+            }
+            _context.SaveChanges();
+            return valor;
+        }
 
     }
 }

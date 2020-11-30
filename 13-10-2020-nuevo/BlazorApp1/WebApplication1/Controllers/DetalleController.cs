@@ -25,5 +25,26 @@ namespace WebApplication1.Controllers
         {
             return _context.Detalles.ToList();
         }
+
+        [HttpGet("{id}")]
+        public Detalle Get(int id)
+        {
+            return _context.Detalles.Where(i => i.Id == id).Single();
+        }
+        [HttpPost]
+        public Detalle Post(Detalle valor)
+        {
+            if (valor.Id == 0)
+            {
+                _context.Detalles.Add(valor);
+            }
+            else
+            {
+                _context.Detalles.Attach(valor);
+                _context.Detalles.Update(valor);
+            }
+            _context.SaveChanges();
+            return valor;
+        }
     }
 }

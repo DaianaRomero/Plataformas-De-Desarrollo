@@ -20,31 +20,29 @@ namespace BlazorApp1.Data
 
         public async Task<Usuario> Get(int id)
         {
-            return await context.Usuarios.Where(i => i.Id == id).SingleAsync();
+           /// return await context.Usuarios.Where(i => i.Id == id).SingleAsync();
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44358/api/");
+            return await remoteService.GetUsuario(id);
         }
 
         public async Task<List<Usuario>> GetAll()
         {
-            // return await context.Usuarios.ToListAsync();
             var remoteService = RestService.For<IRemoteService>("https://localhost:44358/api/");
-            //await remoteService.CrearUsuario(new Usuario { Nombre = "Florencia"});
             return await remoteService.GetAllUsuario();
         }
 
         public async Task<Usuario> Save(Usuario value)
         {
-            if (value.Id == 0)
-            {
-                await context.Usuarios.AddAsync(value);
-            }
-            else
-            {
-                context.Usuarios.Update(value);
-            }
-            await context.SaveChangesAsync();
-            return value;
-        }
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44358/api/");
+            return await remoteService.GuardarUsuario(value);
 
+        }
+        public async Task<Usuario> GuardaUsuario(Usuario valor)
+        {
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44358/api/");
+            return await remoteService.CrearUsuario(valor);
+
+        }
         public async Task<bool> Remove(int id)
         {
             var entidad = await context.Usuarios.Where(i => i.Id == id).SingleAsync();

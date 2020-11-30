@@ -1,6 +1,8 @@
 ﻿@page "/EditarDetalles/{id:int}"
 @using BlazorApp1.Data
 @inject DetalleService service
+@inject RecursoService Recursoservice
+@inject TareaService Tareaservice
 @inject NavigationManager navigation
 
 <EditForm Model="@Modelo" OnValidSubmit="@Guardar">
@@ -9,7 +11,7 @@
     <label for="Nombre"> Tiempo: </label>
     <InputText class="mr-3" @bind-Value="Modelo.Tiempo" />
     <label for="Nombre"> Fecha: </label>
-    <InputDate class="mr-3"  @bind-Value="Modelo.Fecha" />
+    <InputDate class="mr-3" @bind-Value="Modelo.Fecha" />
 
     <InputSelect class="mr-3" @bind-Value="RecursoId">
         <option value="0">Elija un Recurso</option>
@@ -17,7 +19,7 @@
         {
 <option value="@item.Id">@item.Nombre</option>}
     </InputSelect>
-   
+
     <InputSelect class="mr-3" @bind-Value="TareaId">
         <option value="0">Elija una Tarea</option>
         @foreach (var item in tareas)
@@ -29,32 +31,34 @@
 </EditForm>
 
 
-@code {
-    [Parameter]
+@code { [Parameter]
     public int Id { get; set; }
 
     public Detalle Modelo { get; set; } = new Detalle();
 
     public string TareaId { get; set; }
 
-    private List<Tarea> tareas;
+    //inicializas para que no de null
+    private List<Tarea> tareas = new List<Tarea>();
 
     public string RecursoId { get; set; }
 
-    private List<Recurso> recursos;
+    private List<Recurso> recursos = new List<Recurso>();
 
     protected override async Task OnInitializedAsync()
     {
         if (Id > 0)
         {
             Modelo = await service.Get(Id);
+            RecursoId = Modelo.RecursoId.ToString();
+            TareaId = Modelo.TareaId.ToString();
         }
         else
         {
             Modelo = new Detalle();
         }
-        tareas = await service.GetTarea();
-        recursos = await service.GetRecurso();
+        tareas = await Tareaservice.GetAll();
+        recursos = await Recursoservice.GetAll();
     }
 
 
@@ -65,5 +69,4 @@
         Modelo.TareaId = int.Parse(TareaId);
         await service.Save(Modelo);
         navigation.NavigateTo("/ListadoDeDetalles/");
-    }
-}
+    } }

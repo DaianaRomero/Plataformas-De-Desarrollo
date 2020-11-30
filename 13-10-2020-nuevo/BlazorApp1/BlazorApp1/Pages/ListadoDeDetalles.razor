@@ -53,6 +53,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         detalles = await service.GetAll();
+        var tipos = await service.GetAll();//
     }
 
 
@@ -62,8 +63,8 @@ else
     }
 
     async Task Borrar(int id)
-    { 
- 
+    {
+
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea elimiar detalles?");
         if (confirmed)
         {

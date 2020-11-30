@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,29 +20,28 @@ namespace BlazorApp1.Data
 
         public async Task<Detalle> Get(int id)
         {
-            return await context.Detalles.Where(i => i.Id == id).SingleAsync();
+            //return await context.Detalles.Where(i => i.Id == id).SingleAsync();
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44358/api/");
+            return await remoteService.GetDetalle(id);
         }
 
         public async Task<List<Detalle>> GetAll()
         {
-           // return await context.Detalles.ToListAsync();
-            return await context.Detalles.Include(i => i.Recurso).Include(i => i.Tarea).ToListAsync();
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44358/api/");
+            return await remoteService.GetAllDetalle();
         }
 
         public async Task<Detalle> Save(Detalle value)
         {
-            if (value.Id == 0)
-            {
-                await context.Detalles.AddAsync(value);
-            }
-            else
-            {
-                context.Detalles.Update(value);
-            }
-            await context.SaveChangesAsync();
-            return value;
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44358/api/");
+            return await remoteService.GuardarDetalle(value);
         }
+        public async Task<Detalle> GuardaRecurso(Detalle valor)
+        {
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44358/api/");
+            return await remoteService.CrearDetalle(valor);
 
+        }
         public async Task<bool> Remove(int id)
         {
             var entidad = await context.Detalles.Where(i => i.Id == id).SingleAsync();

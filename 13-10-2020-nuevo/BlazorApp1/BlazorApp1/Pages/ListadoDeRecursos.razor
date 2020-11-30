@@ -47,6 +47,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         recursos = await service.GetAll();
+        var tipos = await service.GetAll();//
     }
 
 

@@ -54,6 +54,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         tareas = await service.GetAll();
+        var tipos = await service.GetAll();//
     }
 
 

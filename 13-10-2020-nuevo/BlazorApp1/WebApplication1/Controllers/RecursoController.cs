@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model.Entidades;
 using WebApplication1.Data;
 
+
 namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
@@ -26,5 +27,26 @@ namespace WebApplication1.Controllers
             return _context.Recursos.ToList();
         }
 
+        [HttpGet("{id}")]
+        public Recurso Get(int id)
+        {
+            return _context.Recursos.Where(i => i.Id == id).Single();
+        }
+
+        [HttpPost]
+        public Recurso Post(Recurso valor)
+        {
+            if (valor.Id == 0)
+            {
+                _context.Recursos.Add(valor);
+            }
+            else
+            {
+                _context.Recursos.Attach(valor);
+                _context.Recursos.Update(valor);
+            }
+            _context.SaveChanges();
+            return valor;
+        }
     }
 }
