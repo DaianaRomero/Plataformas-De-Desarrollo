@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Model.Entidades;
 using WebApplication1.Data;
 
@@ -32,22 +33,56 @@ namespace WebApplication1.Controllers
             return _context.Usuarios.Where(i => i.Id == id).Single();
         }
 
-        [HttpPost]
-        public Usuario Post(Usuario valor)
+        
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            var borrar = await _context.Usuarios.FindAsync(id);
+            if (borrar == null)
+            {
+                return NotFound();
+            }
+
+            _context.Usuarios.Remove(borrar);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+        //[HttpPost]
+        //public Usuario Post(Usuario valor)
+        //{
+        //    if (valor.Id == 0)
+        //    {
+        //        _context.Usuarios.Add(valor);
+        //    }
+        //    else
+        //    {
+        //        _context.Usuarios.Attach(valor);
+        //        _context.Usuarios.Update(valor);
+        //    }
+        //    _context.SaveChanges();
+        //    return valor;
+        //}
+        [HttpPost]
+        public IActionResult Post(Usuario valor)
+        {
+            var local = _context.Usuarios.Local.FirstOrDefault(e => e.Id.Equals(valor.Id));
+
+            if (local != null)
+                _context.Entry(local).State = EntityState.Detached;
+
             if (valor.Id == 0)
             {
-                _context.Usuarios.Add(valor);
+                _context.Entry(valor).State = EntityState.Added;
             }
             else
             {
-                _context.Usuarios.Attach(valor);
-                _context.Usuarios.Update(valor);
+                _context.Entry(valor).State = EntityState.Modified;
             }
             _context.SaveChanges();
-            return valor;
+            return Ok(valor);
         }
-
 
     }
 }

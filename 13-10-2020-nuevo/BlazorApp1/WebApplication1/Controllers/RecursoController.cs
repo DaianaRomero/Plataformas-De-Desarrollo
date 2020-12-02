@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Model.Entidades;
 using WebApplication1.Data;
 
@@ -24,7 +25,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public List<Recurso> Get()
         {
-            return _context.Recursos.ToList();
+            return _context.Recursos.Include(i => i.Usuario).ToList();
         }
 
         [HttpGet("{id}")]
@@ -33,20 +34,39 @@ namespace WebApplication1.Controllers
             return _context.Recursos.Where(i => i.Id == id).Single();
         }
 
-        [HttpPost]
-        public Recurso Post(Recurso valor)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            var borrar = await _context.Recursos.FindAsync(id);
+            if (borrar == null)
+            {
+                return NotFound();
+            }
+
+            _context.Recursos.Remove(borrar);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public IActionResult Post(Recurso valor)
+        {
+            var local = _context.Recursos.Local.FirstOrDefault(e => e.Id.Equals(valor.Id));
+
+            if (local != null)
+                _context.Entry(local).State = EntityState.Detached;
+
             if (valor.Id == 0)
             {
-                _context.Recursos.Add(valor);
+                _context.Entry(valor).State = EntityState.Added;
             }
             else
             {
-                _context.Recursos.Attach(valor);
-                _context.Recursos.Update(valor);
+                _context.Entry(valor).State = EntityState.Modified;
             }
             _context.SaveChanges();
-            return valor;
+            return Ok(valor);
         }
     }
 }

@@ -52,7 +52,7 @@ else
 
     async Task Borrar(int id)
     {
-        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea elimiar el usuario?");
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea eliminar el usuario?");
         if (confirmed)
         {
             await service.Remove(id);
